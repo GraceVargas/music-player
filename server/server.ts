@@ -1,16 +1,22 @@
-import express from "express";
+import dotenv from 'dotenv';
+import express, { Request, Response } from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
 import SpotifyWebApi from 'spotify-web-api-node';
-import Global from './Global/Global';
 
-
+dotenv.config()
 const app = express();
 
-app.post('/login', (req, res) => {
+app.use(cors());
+app.use(bodyParser.json());
+
+app.post('/login', (req: Request, res: Response) => {
     const code = req.body.code
+
     const spotifyApi = new SpotifyWebApi({
-        redirect_uri: Global.redirect_uri,
-        client_id: Global.client_id,
-        client_secret: Global.client_secret, 
+        redirectUri: process.env.REDIRECT_URI,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET, 
     })
 
     spotifyApi
@@ -18,14 +24,38 @@ app.post('/login', (req, res) => {
     .then(
         (data) => {
           res.json({
-            accessToken: data.body.access.token,
-            refreshToken: data.body.refresh.token,
+            accessToken: data.body.access_token,
+            refreshToken: data.body.refresh_token,
             expiresIn: data.body.expires_in
           })
         })
-        .catch(() => {
-            res.sendStatus(400)
+        .catch((err) => {
+            res.sendStatus(err)
         })
 
 })
+
+app.post('/refresh', (req: Request, res: Response) => {
+  const refreshToken = req.body.refreshToken;
+
+  const spotifyApi = new SpotifyWebApi({
+    redirectUri: process.env.REDIRECT_URI,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET, 
+    refreshToken: refreshToken
+  });
+
+  spotifyApi
+  .refreshAccessToken()
+  .then(
+    (data) => {
+      console.log(data.body);
+      spotifyApi.setAccessToken(data.body['access_token']);
+    })
+    .catch((err) => {
+      res.sendStatus(err)
+  })
+})
+
+app.listen(process.env.PORT);
 
