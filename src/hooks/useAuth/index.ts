@@ -20,20 +20,22 @@ const useAuth = (code: string) => {
     }, [code])
 
 
+    // Si aun no hay un refreshToken, genero uno 1 minuto antes del tiempo de expiresIn
 
     useEffect(() => {
-        axios.post("http://localhost:3001/refresh", {refreshToken})
-        .then(res => {
-            console.log(res.data)
-            // setAccessToken(res.data.accessToken)
-            // setRefreshToken(res.data.refreshToken)
-            // setExpiresIn(res.data.expiresIn)
-
-            // window.history.pushState({}, '', '/');
-        }).catch(() => {
-            window.location.href = '/login';
-        })
-
+        if (!refreshToken || !expiresIn) return 
+            const tokenInterval = setInterval(() => {
+                axios.post("http://localhost:3001/refresh", {refreshToken})
+                .then(res => {
+                    setAccessToken(res.data.accessToken)
+                    setExpiresIn(res.data.expiresIn)
+                }).catch(() => {
+                    window.location.href = '/login';
+                 })
+            }, (expiresIn - 60) * 1000)   
+        
+        
+            return () => clearInterval(tokenInterval);
     }, [refreshToken, expiresIn])
 
     return accessToken
