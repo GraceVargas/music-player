@@ -1,18 +1,44 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Global from "../../../server/Global/Global";
 
-const useAuth = (code) => {
-    const [accessToken, setAccessToken] = useState();
+const useAuth = (code: string) => {
+    const [accessToken, setAccessToken] = useState("");
     const [refreshToken, setRefreshToken] = useState();
     const [expiresIn, setExpiresIn] = useState();
 
     useEffect(() => {
-        axios.post(`${Global.redirect_uri}/login`, {code})
+        axios.post("http://localhost:3001/login", {code})
         .then(res => {
-            console.log(res.data)
+            setAccessToken(res.data.accessToken)
+            setRefreshToken(res.data.refreshToken)
+            setExpiresIn(res.data.expiresIn)
+
+            window.history.pushState({}, '', '/');
+        }).catch(() => {
+            window.location.href = '/login';
         })
     }, [code])
+
+
+    // Si aun no hay un refreshToken, genero uno 1 minuto antes del tiempo de expiresIn
+
+    useEffect(() => {
+        if (!refreshToken || !expiresIn) return 
+            const tokenInterval = setInterval(() => {
+                axios.post("http://localhost:3001/refresh", {refreshToken})
+                .then(res => {
+                    setAccessToken(res.data.accessToken)
+                    setExpiresIn(res.data.expiresIn)
+                }).catch(() => {
+                    window.location.href = '/login';
+                 })
+            }, (expiresIn - 60) * 1000)   
+        
+        
+            return () => clearInterval(tokenInterval);
+    }, [refreshToken, expiresIn])
+
+    return accessToken
 }
 
 export { useAuth }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Button,
   TextField,
@@ -12,10 +12,9 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import GraphicEqIcon from "@mui/icons-material/GraphicEq";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import Global from "../../../../../server/Global/Global";
 
-// const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${Global.client_id}&response_type=code&redirect_uri=${Global.redirect_uri}&scope=${Global.scopes}`;
+const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${Global.client_id}&response_type=code&redirect_uri=${Global.redirect_uri}&scope=${Global.scopes}`;
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -27,41 +26,6 @@ const LoginForm = () => {
   ) => {
     event.preventDefault();
   };
-
-  // const location = useLocation();
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const urlParams = new URLSearchParams(location.search);
-  //   const spotyCode = urlParams.get("code");
-
-  //   if (spotyCode) {
-  //     autenticateUser(spotyCode);
-  //   }
-  // });
-
-  // const autenticateUser = (spotyCode: string) => {
-  //   try {
-  //     const searchParams = new URLSearchParams({
-  //       code: spotyCode,
-  //       grant_type: "authorization_code",
-  //       redirect_uri: Global.redirect_uri,
-  //       client_id: Global.client_id,
-  //       client_secret: Global.client_secret,
-  //       state: state,
-  //     });
-
-  //     axios
-  //       .post("https://accounts.spotify.com/api/token", searchParams)
-  //       .then((res) => {
-  //         localStorage.setItem("access_token", res.data.access_token);
-  //         localStorage.setItem("refresh_token", res.data.refresh_token);
-  //         navigate("/playlists");
-  //       });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const login = () => {
     window.location.replace(AUTH_URL);
@@ -110,6 +74,3 @@ const LoginForm = () => {
 };
 
 export { LoginForm };
-
-//http://127.0.0.1:5173/?
-//code=AQCC0f10GMGEnUqV_zj39vheROssuLAEbNOanWsaHubhTEc2kLXL8RNET0yZUJKV2wZ0wD_Rbg6R6cQ6Y7V200eM2edyt1r4Igu5tZvIbenaySR5vSU5zXEMuo--HxpQc8aPOJA1H689iL9EWtLLuUu-dS6848caJvM

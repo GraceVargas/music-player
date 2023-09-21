@@ -1,5 +1,6 @@
+import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import App from "./App";
 import { Login, Dashboard } from "./pages";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 
@@ -10,9 +11,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Routes>
       <Route path="/" element={<App />}>
         <Route path="" element={<Outlet />} />
+
+        {code ? (
+          <Route index element={<Dashboard code={code} />} />
+        ) : (
+          <Route path="login" element={<Login />} />
+        )}
+
         <Route path="login" element={<Login />} />
-        <Route path="dashboard" element={<Dashboard code={code} />} />{" "}
-        {/* Acceder solo si el code existe */}
       </Route>
     </Routes>
   </BrowserRouter>
