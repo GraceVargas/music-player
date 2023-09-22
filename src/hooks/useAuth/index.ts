@@ -2,9 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const useAuth = (code: string) => {
-    const [accessToken, setAccessToken] = useState("");
-    const [refreshToken, setRefreshToken] = useState();
-    const [expiresIn, setExpiresIn] = useState();
+    const [accessToken, setAccessToken] = useState<string>("");
+    const [refreshToken, setRefreshToken] = useState<string>();
+    const [expiresIn, setExpiresIn] = useState<number>();
 
     useEffect(() => {
         axios.post("http://localhost:3001/login", {code})
@@ -30,7 +30,7 @@ const useAuth = (code: string) => {
                     setAccessToken(res.data.accessToken)
                     setExpiresIn(res.data.expiresIn)
                 }).catch(() => {
-                    window.location.href = '/login';
+                    window.location.href = '/';
                  })
             }, (expiresIn - 60) * 1000)   
         

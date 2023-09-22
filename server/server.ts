@@ -52,6 +52,7 @@ app.post('/refresh', (req: Request, res: Response) => {
         accessToken: data.body.access_token,
         expiresIn: data.body.expires_in
       })
+      console.log(data)
     })
     .catch((err) => {
       res.sendStatus(err)
