@@ -1,8 +1,9 @@
-import { Stack, IconButton, InputBase } from "@mui/material";
+import { Stack, IconButton, InputBase, Grid } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect, FC } from "react";
 import SpotifyWebApi from "spotify-web-api-node";
 import Global from "../../../../../server/Global/Global.ts";
+import { TrackCard } from "../index.ts";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: Global.client_id,
@@ -62,43 +63,47 @@ const FormSearch: FC<Props> = ({ accessToken }) => {
     });
   }, [search, accessToken]);
 
-  console.log(searchedResults);
-
   return (
-    <Stack
-      component="form"
-      sx={{
-        p: "2px 4px",
-        m: "25px auto",
-        display: "flex",
-        flexDirection: "row",
-        width: 800,
-        backgroundColor: "#FFF",
-        borderRadius: "15px",
-        padding: "7px",
-      }}
-    >
-      <InputBase
+    <>
+      <Stack
+        component="form"
         sx={{
-          ml: 1,
-          flex: 1,
-          color: "#000",
+          p: "2px 4px",
+          m: "25px auto",
+          display: "flex",
+          flexDirection: "row",
+          width: 800,
+          backgroundColor: "#FFF",
+          borderRadius: "15px",
+          padding: "7px",
         }}
-        placeholder="Search song or artist"
-        inputProps={{ "aria-label": "search song or artist" }}
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <IconButton
-        type="button"
-        sx={{ p: "2px", color: "#000" }}
-        aria-label="search"
       >
-        <SearchIcon />
-      </IconButton>
+        <InputBase
+          sx={{
+            ml: 1,
+            flex: 1,
+            color: "#000",
+          }}
+          placeholder="Search song or artist"
+          inputProps={{ "aria-label": "search song or artist" }}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <IconButton
+          type="button"
+          sx={{ p: "2px", color: "#000" }}
+          aria-label="search"
+        >
+          <SearchIcon />
+        </IconButton>
+      </Stack>
 
-      <div>{searchedResults && <div>searchedResults</div>}</div>
-    </Stack>
+      <Grid container spacing={2}>
+        {searchedResults.map((track) => (
+          <TrackCard track={track} key={track.uri} />
+        ))}
+      </Grid>
+    </>
   );
 };
 
