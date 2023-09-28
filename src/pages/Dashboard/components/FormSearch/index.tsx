@@ -1,9 +1,10 @@
-import { Stack, IconButton, InputBase, Grid } from "@mui/material";
+import { Stack, IconButton, InputBase, Grid, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect, FC } from "react";
 import SpotifyWebApi from "spotify-web-api-node";
 import Global from "../../../../../server/Global/Global.ts";
-import { TrackCard } from "../index.ts";
+import { TrackCard, Player } from "../index.ts";
+import { SearchedResult } from "../../../../types/index.ts";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: Global.client_id,
@@ -11,13 +12,6 @@ const spotifyApi = new SpotifyWebApi({
 
 type Props = {
   accessToken: string; //borrar la props una vez que lo ponga en redux o context
-};
-
-type SearchedResult = {
-  artistName: string;
-  title: string;
-  uri: string;
-  albumUrl: string;
 };
 
 const initialResult = [
@@ -33,6 +27,12 @@ const FormSearch: FC<Props> = ({ accessToken }) => {
   const [search, setSearch] = useState<string>("");
   const [searchedResults, setSearchedResults] =
     useState<SearchedResult[]>(initialResult);
+  const [playTrack, setPlayTrack] = useState<SearchedResult>();
+
+  const chooseTrack = (track: SearchedResult) => {
+    setPlayTrack(track);
+    setSearch("");
+  };
 
   useEffect(() => {
     if (!accessToken) return;
@@ -100,9 +100,20 @@ const FormSearch: FC<Props> = ({ accessToken }) => {
 
       <Grid container spacing={2}>
         {searchedResults.map((track) => (
-          <TrackCard track={track} key={track.uri} />
+          <TrackCard
+            track={track}
+            key={track.uri}
+            chooseTrack={() => chooseTrack(track)}
+          />
         ))}
       </Grid>
+      <Box sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
+        <Player
+          accessToken={accessToken}
+          trackUri={playTrack}
+          key={playTrack?.uri}
+        />
+      </Box>
     </>
   );
 };
