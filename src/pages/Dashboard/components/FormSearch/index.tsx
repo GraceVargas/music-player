@@ -5,6 +5,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 import Global from "../../../../../server/Global/Global.ts";
 import { TrackCard, Player } from "../index.ts";
 import { SearchedResult } from "../../../../types/index.ts";
+import { useTracks } from "../../../../hooks/index.ts";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: Global.client_id,
@@ -24,6 +25,8 @@ const initialResult = [
 ];
 
 const FormSearch: FC<Props> = ({ accessToken }) => {
+  const { getTracks } = useTracks();
+
   const [search, setSearch] = useState<string>("");
   const [searchedResults, setSearchedResults] =
     useState<SearchedResult[]>(initialResult);
@@ -42,25 +45,7 @@ const FormSearch: FC<Props> = ({ accessToken }) => {
   useEffect(() => {
     if (!search) return setSearchedResults([]);
 
-    spotifyApi.searchTracks(search).then((res) => {
-      if (res.body.tracks) {
-        setSearchedResults(
-          res.body.tracks.items.map((track) => {
-            const returnSmallestAlbumImg = () => {
-              const length = track.album.images.length;
-              return track.album.images[length - 1];
-            };
-
-            return {
-              artistName: track.artists[0].name,
-              title: track.name,
-              uri: track.uri,
-              albumUrl: returnSmallestAlbumImg().url,
-            };
-          })
-        );
-      }
-    });
+    getTracks(search);
   }, [search, accessToken]);
 
   return (
