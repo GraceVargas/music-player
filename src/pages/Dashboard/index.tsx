@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { useAuth, useState } from "../../hooks";
+import { useAuth } from "../../hooks";
 import { FormSearch } from "./components/index";
 import { Container } from "@mui/material";
 import SpotifyWebApi from "spotify-web-api-node";
@@ -23,7 +23,7 @@ const Dashboard: FC<Props> = ({ code }) => {
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
 
-  return <Container>{<FormSearch accessToken={accessToken} />}</Container>;
+  return <Container>{<FormSearch />}</Container>;
 };
 
 export { Dashboard };

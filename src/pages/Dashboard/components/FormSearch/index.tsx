@@ -1,18 +1,21 @@
 import { Stack, IconButton, InputBase, Grid, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-node";
 import Global from "../../../../../server/Global/Global.ts";
 import { TrackCard, Player } from "../index.ts";
 import { SearchedResult } from "../../../../types/index.ts";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/rootReducer.ts";
+import { useDispatch } from "react-redux";
+import {
+  userSelector,
+  getCurrentUser,
+} from "../../../../redux/slices/userSlice.ts";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: Global.client_id,
 });
-
-type Props = {
-  accessToken: string; //borrar la props una vez que lo ponga en redux o context
-};
 
 const initialResult = [
   {
@@ -23,7 +26,19 @@ const initialResult = [
   },
 ];
 
-const FormSearch: FC<Props> = ({ accessToken }) => {
+const FormSearch = () => {
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+
+  const dispatch = useDispatch();
+  const { userData } = useSelector(userSelector);
+
+  useEffect(() => {
+    // Utiliza la función dispatch retornada por createAsyncThunk para despachar la acción asincrónica
+    getCurrentUser();
+  }, [dispatch]);
+
+  console.log("userData=" + userData);
+
   const [search, setSearch] = useState<string>("");
   const [searchedResults, setSearchedResults] =
     useState<SearchedResult[]>(initialResult);
@@ -33,11 +48,6 @@ const FormSearch: FC<Props> = ({ accessToken }) => {
     setPlayTrack(track);
     setSearch("");
   };
-
-  useEffect(() => {
-    if (!accessToken) return;
-    spotifyApi.setAccessToken(accessToken);
-  }, [accessToken]);
 
   useEffect(() => {
     if (!search) return setSearchedResults([]);
@@ -108,11 +118,7 @@ const FormSearch: FC<Props> = ({ accessToken }) => {
         ))}
       </Grid>
       <Box sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
-        <Player
-          accessToken={accessToken}
-          trackUri={playTrack}
-          key={playTrack?.uri}
-        />
+        <Player trackUri={playTrack} key={playTrack?.uri} />
       </Box>
     </>
   );
