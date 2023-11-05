@@ -1,8 +1,12 @@
 // store.ts
-import { configureStore } from '@reduxjs/toolkit';
-import { rootReducer } from './rootReducer.ts';
+import { configureStore, AnyAction, Store } from '@reduxjs/toolkit';
+import { AppThunkDispatch, RootState, rootReducer } from './rootReducer.ts';
 
-const store = configureStore({
+export type AppStore = Omit<Store<RootState, AnyAction>, "dispatch"> & {
+  dispatch: AppThunkDispatch;
+};
+
+const store: AppStore = configureStore({
   reducer: rootReducer,
 });
 
