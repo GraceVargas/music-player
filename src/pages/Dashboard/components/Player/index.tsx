@@ -1,13 +1,16 @@
 import SpotifyPlayer from "react-spotify-web-playback";
 import { FC, useEffect, useState } from "react";
 import { SearchedResult } from "../../../../types/index.ts";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/rootReducer.ts";
 
 type Props = {
-  accessToken: string;
   trackUri: SearchedResult | undefined;
 };
 
-const Player: FC<Props> = ({ accessToken, trackUri }) => {
+const Player: FC<Props> = ({ trackUri }) => {
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+
   const [play, setPlay] = useState(false);
 
   useEffect(() => setPlay(true), [trackUri?.uri]);

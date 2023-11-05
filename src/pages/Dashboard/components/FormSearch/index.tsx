@@ -1,19 +1,16 @@
 import { Stack, IconButton, InputBase, Grid, Box } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import { useState, useEffect, FC } from "react";
-import SpotifyWebApi from "spotify-web-api-node";
-import Global from "../../../../../server/Global/Global.ts";
+// import SearchIcon from "@mui/icons-material/Search";
+import { useState, useEffect } from "react";
 import { TrackCard, Player } from "../index.ts";
 import { SearchedResult } from "../../../../types/index.ts";
 import { useTracks } from "../../../../hooks/index.ts";
-
-const spotifyApi = new SpotifyWebApi({
-  clientId: Global.client_id,
-});
-
-type Props = {
-  accessToken: string; //borrar la props una vez que lo ponga en redux o context
-};
+import { useSelector } from "react-redux";
+import { AppThunkDispatch, RootState } from "../../../../redux/rootReducer.ts";
+import { useDispatch } from "react-redux";
+import {
+  userSelector,
+  getCurrentUser,
+} from "../../../../redux/slices/userSlice.ts";
 
 const initialResult = [
   {
@@ -24,8 +21,16 @@ const initialResult = [
   },
 ];
 
-const FormSearch: FC<Props> = ({ accessToken }) => {
+const FormSearch = () => {
+  const accessToken = useSelector((state: RootState) => state.auth);
   const { getTracks } = useTracks();
+  const dispatch = useDispatch<AppThunkDispatch>();
+
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [accessToken, dispatch]);
+
+  const { userData } = useSelector(userSelector);
 
   const [search, setSearch] = useState<string>("");
   const [searchedResults, setSearchedResults] =
@@ -36,11 +41,6 @@ const FormSearch: FC<Props> = ({ accessToken }) => {
     setPlayTrack(track);
     setSearch("");
   };
-
-  useEffect(() => {
-    if (!accessToken) return;
-    spotifyApi.setAccessToken(accessToken);
-  }, [accessToken]);
 
   useEffect(() => {
     if (!search) return setSearchedResults([]);
@@ -79,7 +79,7 @@ const FormSearch: FC<Props> = ({ accessToken }) => {
           sx={{ p: "2px", color: "#000" }}
           aria-label="search"
         >
-          <SearchIcon />
+          {/* <SearchIcon /> */}
         </IconButton>
       </Stack>
 
@@ -93,12 +93,10 @@ const FormSearch: FC<Props> = ({ accessToken }) => {
         ))}
       </Grid>
       <Box sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
-        <Player
-          accessToken={accessToken}
-          trackUri={playTrack}
-          key={playTrack?.uri}
-        />
+        <Player trackUri={playTrack} key={playTrack?.uri} />
       </Box>
+
+      <Box>usuario: {userData.email}</Box>
     </>
   );
 };
