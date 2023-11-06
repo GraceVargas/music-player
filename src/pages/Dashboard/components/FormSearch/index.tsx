@@ -1,34 +1,31 @@
 import { Stack, IconButton, InputBase, Grid, Box } from "@mui/material";
 // import SearchIcon from "@mui/icons-material/Search";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { TrackCard, Player } from "../index.ts";
 import { SearchedResult } from "../../../../types/index.ts";
+import { useTracks } from "../../../../hooks/index.ts";
 import { useSelector } from "react-redux";
 import { AppThunkDispatch, RootState } from "../../../../redux/rootReducer.ts";
 import { useDispatch } from "react-redux";
-import SpotifyWebApi from "spotify-web-api-node";
 import {
   userSelector,
   getCurrentUser,
 } from "../../../../redux/slices/userSlice.ts";
-import Global from "../../../../../server/Global/Global.ts";
+import { TracksContext } from "../../../../context/Tracks/index.tsx";
 
-const spotifyApi = new SpotifyWebApi({
-  clientId: Global.client_id,
-});
-
-const initialResult = [
-  {
-    artistName: "",
-    title: "",
-    uri: "",
-    albumUrl: "",
-  },
-];
+// const initialResult = [
+//   {
+//     artistName: "",
+//     title: "",
+//     uri: "",
+//     albumUrl: "",
+//   },
+// ];
 
 const FormSearch = () => {
   const accessToken = useSelector((state: RootState) => state.auth);
-
+  const { getTracks } = useTracks();
+  const { tracks } = useContext(TracksContext);
   const dispatch = useDispatch<AppThunkDispatch>();
 
   useEffect(() => {
@@ -38,8 +35,8 @@ const FormSearch = () => {
   const { userData } = useSelector(userSelector);
 
   const [search, setSearch] = useState<string>("");
-  const [searchedResults, setSearchedResults] =
-    useState<SearchedResult[]>(initialResult);
+  // const [searchedResults, setSearchedResults] =
+  //   useState<SearchedResult[]>(initialResult);
   const [playTrack, setPlayTrack] = useState<SearchedResult>();
 
   const chooseTrack = (track: SearchedResult) => {
@@ -48,30 +45,9 @@ const FormSearch = () => {
   };
 
   useEffect(() => {
-    if (!search) return setSearchedResults([]);
+    // if (!search) return setSearchedResults([]);
 
-    spotifyApi
-      .searchTracks(search)
-      .then((res) => {
-        if (res.body.tracks) {
-          setSearchedResults(
-            res.body.tracks.items.map((track) => {
-              const returnSmallestAlbumImg = () => {
-                const length = track.album.images.length;
-                return track.album.images[length - 1];
-              };
-
-              return {
-                artistName: track.artists[0].name,
-                title: track.name,
-                uri: track.uri,
-                albumUrl: returnSmallestAlbumImg().url,
-              };
-            })
-          );
-        }
-      })
-      .catch(Error);
+    getTracks(search);
   }, [search, accessToken]);
 
   return (
@@ -110,13 +86,14 @@ const FormSearch = () => {
       </Stack>
 
       <Grid container spacing={2}>
-        {searchedResults.map((track) => (
-          <TrackCard
-            track={track}
-            key={track.uri}
-            chooseTrack={() => chooseTrack(track)}
-          />
-        ))}
+        {tracks &&
+          tracks.map((track) => (
+            <TrackCard
+              track={track}
+              key={track.uri}
+              chooseTrack={() => chooseTrack(track)}
+            />
+          ))}
       </Grid>
       <Box sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
         <Player trackUri={playTrack} key={playTrack?.uri} />

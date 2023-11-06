@@ -8,10 +8,8 @@ type Props = {
 };
 
 const Dashboard: FC<Props> = ({ code }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const accessToken = useAuth(code);
-  console.log(accessToken);
-  // const [searchedResults, setSearchedResults] = useState<string[]>([]);
-
   return <Container>{<FormSearch />}</Container>;
 };
 

@@ -10,6 +10,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+
+// Login
+
 app.post('/login', (req: Request, res: Response) => {
     const code = req.body.code;
 
@@ -34,6 +37,8 @@ app.post('/login', (req: Request, res: Response) => {
         })
 
 })
+
+// Refresh Token
 
 app.post('/refresh', (req: Request, res: Response) => {
   const refreshToken = req.body.refreshToken;
