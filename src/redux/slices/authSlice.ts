@@ -9,15 +9,15 @@ const spotifyApi = new SpotifyWebApi({
   });
 
 interface AuthState {
-    accessToken: string | null;
-    refreshToken: string | null;
-    expiresIn: number | null;
+    accessToken: string;
+    refreshToken: string;
+    expiresIn: number;
 }
 
 const initialState: AuthState = {
-    accessToken: null,
-    refreshToken: null,
-    expiresIn: null,
+    accessToken: "",
+    refreshToken: "",
+    expiresIn: 0,
 };
 
 export const configureAccessToken = createAsyncThunk<void, string, AnyAsyncThunk>(
@@ -39,9 +39,9 @@ const authSlice = createSlice({
             state.expiresIn = action.payload.expiresIn;
         },
         clearAuthTokens: (state) => {
-            state.accessToken = null;
-            state.refreshToken = null;
-            state.expiresIn = null;
+            state.accessToken = "";
+            state.refreshToken = "";
+            state.expiresIn = 0;
         },
     },
 });

@@ -3,11 +3,20 @@ import Global from "../../server/Global/Global.js";
 import { mapToArray } from "./index.ts";
 import { SpotifyResponse } from "../types/index.ts";
 
-const spotifyApi = new SpotifyWebApi({
-  clientId: Global.client_id,
-});
+const createSpotifyApi = (accessToken: string) => {
+  const spotifyApi = new SpotifyWebApi({
+    clientId: Global.client_id,
+    accessToken,
+  });
 
-const searchTracks = async (search: string): Promise<SpotifyResponse[]> => {
+  return spotifyApi;
+};
+
+const searchTracks = async (
+  search: string,
+  accessToken: string
+): Promise<SpotifyResponse[]> => {
+  const spotifyApi = createSpotifyApi(accessToken);
   try {
     const response = await spotifyApi.searchTracks(search);
     return mapToArray(response.body.tracks?.items);
