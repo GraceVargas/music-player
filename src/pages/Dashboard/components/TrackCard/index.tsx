@@ -65,6 +65,18 @@ const TrackCard: FC<Props> = ({ track, chooseTrack }) => {
             >
               {track.artistName}
             </Typography>
+            <Typography
+              variant="body1"
+              color="text.secondary"
+              component="div"
+              sx={{
+                position: "absolute",
+                bottom: "10%",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {track.album}
+            </Typography>
           </CardContent>
         </Box>
       </Card>

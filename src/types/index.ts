@@ -107,6 +107,7 @@ export type SearchedResult = {
     title: string;
     uri: string;
     albumUrl: string;
+    album: string
   };
 
   export type User = {

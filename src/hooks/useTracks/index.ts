@@ -24,6 +24,7 @@ const useTracks = () => {
                       title: track.name,
                       uri: track.uri,
                       albumUrl: returnSmallestAlbumImg().url,
+                      album: track.album.name
                     };
                   })
                 );
