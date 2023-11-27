@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useAuth } from "../../hooks";
-import { Player, TrackCard } from "./components/index";
+import { Player, TrackCard, AsideMenu } from "./components/index";
 import {
   Container,
   Grid,
@@ -47,60 +47,72 @@ const Dashboard: FC<Props> = ({ code }) => {
   };
 
   return (
-    <Container>
-      <Box>usuario: {userData.email}</Box>
-      <Stack
-        component="form"
-        sx={{
-          p: "2px 4px",
-          m: "25px auto",
-          display: "flex",
-          flexDirection: "row",
-          width: 800,
-          backgroundColor: "#FFF",
-          borderRadius: "15px",
-          padding: "7px",
-        }}
-      >
-        <InputBase
+    <>
+      <Container sx={{ display: "flex" }}>
+        <AsideMenu />
+        <Box
+          component="main"
           sx={{
-            ml: 1,
-            flex: 1,
-            color: "#000",
+            flexGrow: 1,
+            width: "auto",
+            marginTop: { xs: "80px", md: "10px" },
           }}
-          placeholder="Search song or artist"
-          inputProps={{ "aria-label": "search song or artist" }}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <IconButton
-          type="button"
-          sx={{ p: "2px", color: "#000" }}
-          aria-label="search"
         >
-          <SearchIcon />
-        </IconButton>
-      </Stack>
-      <Grid
-        container
-        spacing={2}
-        justifyContent="center"
-        alignItems="center"
-        sx={{ height: "100vh" }}
-      >
-        {tracks &&
-          tracks.map((track) => (
-            <TrackCard
-              track={track}
-              key={track.uri}
-              chooseTrack={() => chooseTrack(track)}
+          <Box>usuario: {userData.email}</Box>
+          <Stack
+            component="form"
+            sx={{
+              p: "2px 4px",
+              m: "25px auto",
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              backgroundColor: "#FFF",
+              borderRadius: "15px",
+              padding: "7px",
+            }}
+          >
+            <InputBase
+              sx={{
+                ml: 1,
+                flex: 1,
+                color: "#000",
+              }}
+              placeholder="Search song or artist"
+              inputProps={{ "aria-label": "search song or artist" }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
-          ))}
-      </Grid>
+            <IconButton
+              type="button"
+              sx={{ p: "2px", color: "#000" }}
+              aria-label="search"
+            >
+              <SearchIcon />
+            </IconButton>
+          </Stack>
+          <Grid
+            container
+            spacing={2}
+            justifyContent="center"
+            alignItems="center"
+            sx={{ height: "100vh" }}
+          >
+            {tracks &&
+              tracks.map((track) => (
+                <TrackCard
+                  track={track}
+                  key={track.uri}
+                  chooseTrack={() => chooseTrack(track)}
+                />
+              ))}
+          </Grid>
+        </Box>
+      </Container>
       <Box sx={{ position: "sticky", bottom: 0, left: 0, right: 0 }}>
         <Player trackUri={playTrack} key={playTrack?.uri} />
       </Box>
-    </Container>
+    </>
   );
 };
 
