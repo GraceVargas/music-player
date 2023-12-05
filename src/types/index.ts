@@ -103,11 +103,13 @@ export type SpotifyResponse = {
 
 
 export type SearchedResult = {
-    artistName: string;
-    title: string;
-    uri: string;
-    albumUrl: string;
-    album: string
+    artistName: string,
+    artistId: string,
+    title: string,
+    uri: string,
+    albumUrl: string,
+    album: string,
+    albumId: string
   };
 
   export type User = {

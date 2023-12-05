@@ -8,10 +8,10 @@ const createSpotifyApi = (accessToken: string) => {
     clientId: Global.client_id,
     accessToken,
   });
-
   return spotifyApi;
 };
 
+// Sarch tracks
 const searchTracks = async (
   search: string,
   accessToken: string
@@ -25,4 +25,132 @@ const searchTracks = async (
   }
 };
 
-export const tracksApi = { searchTracks };
+// Search artists
+const searchArtists = async (
+  search: string,
+  accessToken: string
+): Promise<SpotifyResponse[] | undefined> => {
+  const spotifyApi = createSpotifyApi(accessToken);
+  try {
+    const response = await spotifyApi.searchArtists(search);
+    console.log("Search artists", response.body);
+    return mapToArray(response.body);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Search playlists
+const searchPlaylists = async (
+  search: string,
+  accessToken: string
+): Promise<SpotifyResponse[] | undefined> => {
+  const spotifyApi = createSpotifyApi(accessToken);
+  try {
+    const response = await spotifyApi.searchPlaylists(search);
+    console.log("Search playlists", response.body);
+    return mapToArray(response.body);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Get an artist
+const getArtist = async (
+  artistId: string | undefined,
+  accessToken: string
+): Promise<SpotifyResponse[] | undefined> => {
+  const spotifyApi = createSpotifyApi(accessToken);
+  try {
+    if (artistId) {
+      const response = await spotifyApi.getArtist(artistId);
+      console.log("Artist information", response.body);
+      return mapToArray(response.body);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Get album
+const getAlbum = async (
+  albumUri: string | undefined,
+  accessToken: string
+): Promise<SpotifyResponse[] | undefined> => {
+  const spotifyApi = createSpotifyApi(accessToken);
+  try {
+    if (albumUri) {
+      const response = await spotifyApi.getAlbum(albumUri);
+      return mapToArray(response.body);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Get tracks in an album
+const getTracksInAlbum = async (
+  albumUri: string,
+  accessToken: string
+): Promise<SpotifyResponse[] | undefined> => {
+  const spotifyApi = createSpotifyApi(accessToken);
+  try {
+    const response = await spotifyApi.getAlbumTracks(albumUri, {
+      limit: 15,
+      offset: 1,
+    });
+    console.log("ALBUM Tracks", response.body);
+    return mapToArray(response.body);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Get albums by a certain artist
+const getAlbumsByArtist = async (
+  artistId: string | undefined,
+  accessToken: string
+): Promise<SpotifyResponse[] | undefined> => {
+  const spotifyApi = createSpotifyApi(accessToken);
+  try {
+    if (artistId) {
+      const response = await spotifyApi.getArtistAlbums(artistId);
+      console.log("Artist albums", response.body);
+      return mapToArray(response.body);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+//  Retrieve featured playlists
+const getFeaturedPlaylists = async (accessToken: string) => {
+  const spotifyApi = createSpotifyApi(accessToken);
+  spotifyApi
+    .getFeaturedPlaylists({
+      limit: 3,
+      offset: 1,
+      country: "SE",
+      locale: "sv_SE",
+      timestamp: "2014-10-23T09:00:00",
+    })
+    .then(
+      function (response) {
+        return mapToArray(response.body);
+      },
+      function (err) {
+        console.log("Something went wrong!", err);
+      }
+    );
+};
+
+export const tracksApi = {
+  searchTracks,
+  getFeaturedPlaylists,
+  getAlbum,
+  getTracksInAlbum,
+  getArtist,
+  getAlbumsByArtist,
+  searchArtists,
+  searchPlaylists,
+};
