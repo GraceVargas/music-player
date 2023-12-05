@@ -21,10 +21,12 @@ const useTracks = () => {
                     };
                     return {
                       artistName: track.artists[0].name,
+                      artistId: track.artists[0].id,
                       title: track.name,
                       uri: track.uri,
                       albumUrl: returnSmallestAlbumImg().url,
-                      album: track.album.name
+                      album: track.album.name,
+                      albumId: track.album.id
                     };
                   })
                 );

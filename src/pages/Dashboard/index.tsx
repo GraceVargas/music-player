@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { getCurrentUser, userSelector } from "../../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { AppThunkDispatch } from "../../redux/rootReducer";
+import { tracksApi } from "../../api";
 
 type Props = {
   code: string;
@@ -35,6 +36,7 @@ const Dashboard: FC<Props> = ({ code }) => {
 
   useEffect(() => {
     getTracks(search);
+    // tracksApi.searchPlaylists(search, accessToken);
   }, [search, accessToken]);
 
   useEffect(() => {
@@ -43,6 +45,7 @@ const Dashboard: FC<Props> = ({ code }) => {
 
   const chooseTrack = (track: SearchedResult) => {
     setPlayTrack(track);
+    tracksApi.getTracksInAlbum(track.albumId, accessToken);
     setSearch("");
   };
 
