@@ -110,11 +110,11 @@ const Dashboard: FC<Props> = ({ code }) => {
                 />
               ))}
           </Grid>
+          <Box sx={{ position: "sticky", bottom: 0, left: 0, right: 0 }}>
+            <Player trackUri={playTrack} key={playTrack?.uri} />
+          </Box>
         </Box>
       </Container>
-      <Box sx={{ position: "sticky", bottom: 0, left: 0, right: 0 }}>
-        <Player trackUri={playTrack} key={playTrack?.uri} />
-      </Box>
     </>
   );
 };
