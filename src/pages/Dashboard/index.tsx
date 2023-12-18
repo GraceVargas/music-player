@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useAuth } from "../../hooks";
+import { useArtists, useAuth } from "../../hooks";
 import { Player, TrackCard, AsideMenu } from "./components/index";
 import {
   Container,
@@ -13,12 +13,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useTracks } from "../../hooks";
 import { TracksContext } from "../../context/Tracks";
 import { useContext, useEffect, useState } from "react";
-import { SearchedResult } from "../../types";
+import { SearchedTrack } from "../../types";
 import { useSelector } from "react-redux";
 import { getCurrentUser, userSelector } from "../../redux/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { AppThunkDispatch } from "../../redux/rootReducer";
 import { tracksApi } from "../../api";
+import { ArtistsContext } from "../../context/Artists";
 
 type Props = {
   code: string;
@@ -31,11 +32,14 @@ const Dashboard: FC<Props> = ({ code }) => {
   const [search, setSearch] = useState<string>("");
   const { userData } = useSelector(userSelector);
   const { getTracks } = useTracks();
+  const { getArtists } = useArtists();
   const { tracks } = useContext(TracksContext);
-  const [playTrack, setPlayTrack] = useState<SearchedResult>();
+  const { artists } = useContext(ArtistsContext);
+  const [playTrack, setPlayTrack] = useState<SearchedTrack>();
 
   useEffect(() => {
     getTracks(search);
+    getArtists(search);
     // tracksApi.searchPlaylists(search, accessToken);
   }, [search, accessToken]);
 
@@ -43,11 +47,13 @@ const Dashboard: FC<Props> = ({ code }) => {
     dispatch(getCurrentUser());
   }, [accessToken, dispatch]);
 
-  const chooseTrack = (track: SearchedResult) => {
+  const chooseTrack = (track: SearchedTrack) => {
     setPlayTrack(track);
     tracksApi.getTracksInAlbum(track.albumId, accessToken);
     setSearch("");
   };
+
+  console.log(artists);
 
   return (
     <>
@@ -94,22 +100,24 @@ const Dashboard: FC<Props> = ({ code }) => {
               <SearchIcon />
             </IconButton>
           </Stack>
-          <Grid
-            container
-            spacing={2}
-            justifyContent="center"
-            alignItems="center"
-            sx={{ height: "100vh" }}
-          >
-            {tracks &&
-              tracks.map((track) => (
-                <TrackCard
-                  track={track}
-                  key={track.uri}
-                  chooseTrack={() => chooseTrack(track)}
-                />
-              ))}
-          </Grid>
+          <Container sx={{ height: "100vh" }}>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+              sx={{ height: "30%" }}
+            >
+              {tracks &&
+                tracks.map((track) => (
+                  <TrackCard
+                    track={track}
+                    key={track.uri}
+                    chooseTrack={() => chooseTrack(track)}
+                  />
+                ))}
+            </Grid>
+          </Container>
           <Box sx={{ position: "sticky", bottom: 0, left: 0, right: 0 }}>
             <Player trackUri={playTrack} key={playTrack?.uri} />
           </Box>
