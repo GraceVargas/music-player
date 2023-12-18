@@ -1,9 +1,9 @@
 import { FC, ReactNode, createContext, useState } from "react";
-import { SearchedResult } from "../../types/index.ts";
+import { SearchedTrack } from "../../types/index.ts";
 
 type TracksContextType = {
-  tracks?: SearchedResult[];
-  loadTracks: (track: SearchedResult[]) => void;
+  tracks?: SearchedTrack[];
+  loadTracks: (track: SearchedTrack[]) => void;
 };
 
 const TracksContext = createContext<TracksContextType>({
@@ -16,8 +16,8 @@ type Props = {
 };
 
 const TracksProvider: FC<Props> = ({ children }) => {
-  const [tracks, setTracks] = useState<SearchedResult[]>();
-  const loadTracks = (tracks: SearchedResult[]) => {
+  const [tracks, setTracks] = useState<SearchedTrack[]>();
+  const loadTracks = (tracks: SearchedTrack[]) => {
     setTracks(tracks);
   };
   return (

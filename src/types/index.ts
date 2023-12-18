@@ -102,7 +102,7 @@ export type SpotifyResponse = {
 
 
 
-export type SearchedResult = {
+export type SearchedTrack = {
     artistName: string,
     artistId: string,
     title: string,
