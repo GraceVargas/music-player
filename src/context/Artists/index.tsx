@@ -1,10 +1,10 @@
 import React from "react";
 import { FC, ReactNode, createContext, useState } from "react";
-import { SpotifyResponse } from "../../types/index.ts";
+import { SearchedArtist } from "../../types/index.ts";
 
 type ArtistsContextType = {
-  artists?: Partial<SpotifyResponse[]>;
-  loadArtists: (artist: Partial<SpotifyResponse[]>) => void;
+  artists?: SearchedArtist[];
+  loadArtists: (artist: SearchedArtist[]) => void;
 };
 
 const ArtistsContext = createContext<ArtistsContextType>({
@@ -17,8 +17,8 @@ type Props = {
 };
 
 const ArtistsProvider: FC<Props> = ({ children }) => {
-  const [artists, setArtists] = useState<Partial<SpotifyResponse[]>>();
-  const loadArtists = (artists: Partial<SpotifyResponse[]>) => {
+  const [artists, setArtists] = useState<SearchedArtist[]>();
+  const loadArtists = (artists: SearchedArtist[]) => {
     setArtists(artists);
   };
   return (

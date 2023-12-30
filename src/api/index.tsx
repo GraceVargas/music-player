@@ -1,7 +1,7 @@
 import SpotifyWebApi from "spotify-web-api-node";
 import Global from "../../server/Global/Global.js";
 import { mapToArray } from "./index.ts";
-import { SpotifyResponse } from "../types/index.ts";
+import { SpotifyResponse, SpotifyResponseArtist } from "../types/index.ts";
 
 const createSpotifyApi = (accessToken: string) => {
   const spotifyApi = new SpotifyWebApi({
@@ -29,14 +29,13 @@ const searchTracks = async (
 const searchArtists = async (
   search: string,
   accessToken: string
-): Promise<SpotifyResponse[] | undefined> => {
+): Promise<SpotifyResponseArtist[]> => {
   const spotifyApi = createSpotifyApi(accessToken);
   try {
     const response = await spotifyApi.searchArtists(search);
-    console.log("Search artists", response.body);
-    return mapToArray(response.body);
+    return mapToArray(response.body.artists?.items);
   } catch (error) {
-    console.error(error);
+    throw new Error("No se pudo realizar la request");
   }
 };
 

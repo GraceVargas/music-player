@@ -33,7 +33,11 @@ const LoginForm = () => {
 
   return (
     <Box m={"auto"} textAlign={"center"}>
-      <GraphicEqIcon sx={{ fontSize: 115 }} />
+      <img
+        src="./assets/spotclone_logo.png"
+        alt="Logo SpotClone"
+        width={"340px"}
+      />
       <form>
         <TextField
           label="Usuario"

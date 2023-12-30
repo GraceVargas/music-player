@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useArtists, useAuth } from "../../hooks";
-import { Player, TrackCard, AsideMenu } from "./components/index";
+import { Player, TrackCard, AsideMenu, ArtistCard } from "./components/index";
 import {
   Container,
   Grid,
@@ -8,6 +8,7 @@ import {
   Stack,
   IconButton,
   InputBase,
+  Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTracks } from "../../hooks";
@@ -53,8 +54,6 @@ const Dashboard: FC<Props> = ({ code }) => {
     setSearch("");
   };
 
-  console.log(artists);
-
   return (
     <>
       <Container sx={{ display: "flex" }}>
@@ -64,6 +63,7 @@ const Dashboard: FC<Props> = ({ code }) => {
           sx={{
             flexGrow: 1,
             width: "auto",
+            minHeight: "100vh",
             marginTop: { xs: "80px", md: "10px" },
           }}
         >
@@ -100,29 +100,48 @@ const Dashboard: FC<Props> = ({ code }) => {
               <SearchIcon />
             </IconButton>
           </Stack>
-          <Container sx={{ height: "100vh" }}>
-            <Grid
-              container
-              spacing={2}
-              justifyContent="center"
-              alignItems="center"
-              sx={{ height: "30%" }}
-            >
-              {tracks &&
-                tracks.map((track) => (
-                  <TrackCard
-                    track={track}
-                    key={track.uri}
-                    chooseTrack={() => chooseTrack(track)}
-                  />
-                ))}
-            </Grid>
+          <Container>
+            <Box overflow={"auto"}>
+              {tracks && <Typography variant="h5">Tracks</Typography>}
+              <Grid
+                container
+                direction="column"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+                sx={{ height: "200px" }}
+              >
+                {tracks &&
+                  tracks.map((track) => (
+                    <TrackCard
+                      track={track}
+                      key={track.uri}
+                      chooseTrack={() => chooseTrack(track)}
+                    />
+                  ))}
+              </Grid>
+            </Box>
+            <Box overflow={"auto"}>
+              {artists && <Typography variant="h5">Artists</Typography>}
+              <Grid
+                container
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+                sx={{ height: "30%" }}
+              >
+                {artists &&
+                  artists.map((artist) => (
+                    <ArtistCard artist={artist} key={artist.id} />
+                  ))}
+              </Grid>
+            </Box>
           </Container>
-          <Box sx={{ position: "sticky", bottom: 0, left: 0, right: 0 }}>
-            <Player trackUri={playTrack} key={playTrack?.uri} />
-          </Box>
         </Box>
       </Container>
+      <Box sx={{ position: "sticky", bottom: 0, left: 0, right: 0 }}>
+        <Player trackUri={playTrack} key={playTrack?.uri} />
+      </Box>
     </>
   );
 };

@@ -12,7 +12,19 @@ const getArtists = async (search: string) => {
     try {
         const res = await tracksApi.searchArtists(search, accessToken);      
         if (res) { 
-          loadArtists(res);
+          loadArtists(res.map((item) => {
+            const returnSmallestAlbumImg = () => {
+                const length = item.images.length;
+                return item.images[length - 1];
+              };
+            return {
+                id: item.id,
+                name: item.name,
+                image: returnSmallestAlbumImg().url,
+                followers: item.followers.total,
+                genres: item.genres[0]
+            }
+          }));
           }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch(err: any) {
