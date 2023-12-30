@@ -21,6 +21,7 @@ import { useDispatch } from "react-redux";
 import { AppThunkDispatch } from "../../redux/rootReducer";
 import { tracksApi } from "../../api";
 import { ArtistsContext } from "../../context/Artists";
+import { SimpleSlider } from "../../components/Slider";
 
 type Props = {
   code: string;
@@ -125,19 +126,24 @@ const Dashboard: FC<Props> = ({ code }) => {
               {artists && (
                 <>
                   <Typography variant="h5">Artists</Typography>
-                  <Grid
+                  {/* <Grid
                     container
                     direction="column"
                     spacing={2}
                     justifyContent="center"
                     alignItems="center"
                     sx={{ height: "200px", marginTop: "10px", marginX: "0" }}
-                  >
-                    {artists &&
+                  > */}
+                  <SimpleSlider
+                    children={
+                      artists &&
                       artists.map((artist) => (
                         <ArtistCard artist={artist} key={artist.id} />
-                      ))}
-                  </Grid>
+                      ))
+                    }
+                  />
+
+                  {/* </Grid> */}
                 </>
               )}
             </Box>
