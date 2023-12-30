@@ -122,19 +122,24 @@ const Dashboard: FC<Props> = ({ code }) => {
               </Grid>
             </Box>
             <Box overflow={"auto"}>
-              {artists && <Typography variant="h5">Artists</Typography>}
-              <Grid
-                container
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-                sx={{ height: "30%" }}
-              >
-                {artists &&
-                  artists.map((artist) => (
-                    <ArtistCard artist={artist} key={artist.id} />
-                  ))}
-              </Grid>
+              {artists && (
+                <>
+                  <Typography variant="h5">Artists</Typography>
+                  <Grid
+                    container
+                    direction="column"
+                    spacing={2}
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{ height: "200px", marginTop: "10px", marginX: "0" }}
+                  >
+                    {artists &&
+                      artists.map((artist) => (
+                        <ArtistCard artist={artist} key={artist.id} />
+                      ))}
+                  </Grid>
+                </>
+              )}
             </Box>
           </Container>
         </Box>

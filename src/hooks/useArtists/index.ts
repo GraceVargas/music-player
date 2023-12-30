@@ -13,16 +13,18 @@ const getArtists = async (search: string) => {
         const res = await tracksApi.searchArtists(search, accessToken);      
         if (res) { 
           loadArtists(res.map((item) => {
+            let genre; 
             const returnSmallestAlbumImg = () => {
                 const length = item.images.length;
                 return item.images[length - 1];
               };
+              item.genres[0] !== undefined ? genre = `${item.genres[0]}` : genre = ""; 
             return {
                 id: item.id,
                 name: item.name,
                 image: returnSmallestAlbumImg().url,
                 followers: item.followers.total,
-                genres: item.genres[0]
+                genres: genre
             }
           }));
           }

@@ -107,10 +107,7 @@ export type SpotifyResponseArtist = {
       "href": string,
       "total": number
     },
-    "genres": [
-      string,
-      string
-    ],
+    "genres": string [],
     "href": string,
     "id": string,
     "images": [
