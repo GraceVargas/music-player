@@ -122,18 +122,10 @@ const Dashboard: FC<Props> = ({ code }) => {
                   ))}
               </Grid>
             </Box>
-            <Box overflow={"auto"}>
+            <Box sx={{ marginTop: "10px" }}>
               {artists && (
                 <>
                   <Typography variant="h5">Artists</Typography>
-                  {/* <Grid
-                    container
-                    direction="column"
-                    spacing={2}
-                    justifyContent="center"
-                    alignItems="center"
-                    sx={{ height: "200px", marginTop: "10px", marginX: "0" }}
-                  > */}
                   <SimpleSlider
                     children={
                       artists &&
@@ -142,8 +134,6 @@ const Dashboard: FC<Props> = ({ code }) => {
                       ))
                     }
                   />
-
-                  {/* </Grid> */}
                 </>
               )}
             </Box>
