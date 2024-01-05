@@ -9,7 +9,7 @@ type Props = {
 const SimpleSlider: FC<Props> = ({ children }) => {
   const settings = {
     infinite: false,
-    slidesToShow: 7,
+    slidesToShow: 6,
     slidesToScroll: 4,
     arrows: true,
     dots: false,

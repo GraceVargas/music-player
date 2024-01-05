@@ -13,8 +13,8 @@ const ArtistCard: FC<Props> = ({ artist }) => {
       sx={{
         position: "relative",
         textAlign: "center",
-        height: "215px",
-        width: "150px",
+        height: "230px",
+        width: "180px",
         borderRadius: "10px",
         cursor: "pointer",
         m: "5px",

@@ -102,25 +102,21 @@ const Dashboard: FC<Props> = ({ code }) => {
             </IconButton>
           </Stack>
           <Container>
-            <Box overflow={"auto"}>
-              {tracks && <Typography variant="h5">Tracks</Typography>}
-              <Grid
-                container
-                direction="column"
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-                sx={{ height: "200px" }}
-              >
-                {tracks &&
-                  tracks.map((track) => (
-                    <TrackCard
-                      track={track}
-                      key={track.uri}
-                      chooseTrack={() => chooseTrack(track)}
-                    />
-                  ))}
-              </Grid>
+            <Box sx={{ marginTop: "10px" }}>
+              {tracks && (
+                <>
+                  <Typography variant="h5">Tracks</Typography>
+                  <SimpleSlider
+                    children={tracks.map((track) => (
+                      <TrackCard
+                        track={track}
+                        key={track.uri}
+                        chooseTrack={() => chooseTrack(track)}
+                      />
+                    ))}
+                  />
+                </>
+              )}
             </Box>
             <Box sx={{ marginTop: "10px" }}>
               {artists && (
