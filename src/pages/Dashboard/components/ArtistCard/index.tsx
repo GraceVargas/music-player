@@ -11,8 +11,9 @@ const ArtistCard: FC<Props> = ({ artist }) => {
   return (
     <Card
       sx={{
+        position: "relative",
         textAlign: "center",
-        height: "200px",
+        height: "215px",
         width: "150px",
         borderRadius: "10px",
         cursor: "pointer",
@@ -24,7 +25,7 @@ const ArtistCard: FC<Props> = ({ artist }) => {
         sx={{
           width: "100px",
           height: "100px",
-          marginY: "5px",
+          marginY: "8px",
           marginX: "auto",
           borderRadius: "10px",
         }}
@@ -32,11 +33,28 @@ const ArtistCard: FC<Props> = ({ artist }) => {
         alt={`${artist.name} Album`}
         loading="lazy"
       />
-      <CardContent>
-        <Typography gutterBottom variant="body1" component="div">
+      <CardContent sx={{ p: "5px" }}>
+        <Typography
+          gutterBottom
+          variant="body1"
+          component="div"
+          sx={{ lineHeight: 1.3 }}
+        >
           {artist.name}
         </Typography>
-        <Typography gutterBottom variant="body2" component="div">
+        <Typography
+          gutterBottom
+          variant="subtitle2"
+          component="div"
+          sx={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: "5%",
+            lineHeight: 1,
+            color: "#ebebeb",
+          }}
+        >
           {artist.genres}
         </Typography>
       </CardContent>
