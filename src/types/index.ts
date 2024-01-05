@@ -98,8 +98,58 @@ export type SpotifyResponse = {
   "uri": string,
   "is_local": false
 }
-    
 
+export type SpotifyResponseArtist = {
+    "external_urls": {
+      "spotify": string
+    },
+    "followers": {
+      "href": string,
+      "total": number
+    },
+    "genres": string [],
+    "href": string,
+    "id": string,
+    "images": [
+      {
+        "url": string,
+        "height": number,
+        "width": number
+      }
+    ],
+    "name": string,
+    "popularity": number,
+    "type": string,
+    "uri": string
+  }
+
+
+// export type SpotifyResponseArtistPartial = {
+//         "external_urls": {
+//           "spotify": string
+//         },
+//         "followers": {
+//           "href": string,
+//           "total": number
+//         },
+//         "genres": [
+//           string,
+//           string
+//         ],
+//         "href": string,
+//         "id": string,
+//         "images": [
+//           {
+//             "url": string,
+//             "height": number,
+//             "width": number
+//           }
+//         ],
+//         "name": string,
+//         "popularity": number,
+//         "type": string,
+//         "uri": string
+//       }
 
 
 export type SearchedTrack = {
@@ -111,6 +161,17 @@ export type SearchedTrack = {
     album: string,
     albumId: string
   };
+
+
+  export type SearchedArtist = {
+    id: string,
+    name: string,
+    genres: string,
+    followers: number,
+    image: string,
+  }
+       
+  
 
   export type User = {
       country: string,

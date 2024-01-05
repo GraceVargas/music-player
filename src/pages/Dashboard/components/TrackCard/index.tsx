@@ -7,11 +7,11 @@ import {
   CardMedia,
   Grid,
 } from "@mui/material";
-import { SearchedResult } from "../../../../types/index.ts";
+import { SearchedTrack } from "../../../../types/index.ts";
 
 type Props = {
-  track: SearchedResult;
-  chooseTrack: (track: SearchedResult) => void;
+  track: SearchedTrack;
+  chooseTrack: (track: SearchedTrack) => void;
 };
 
 const TrackCard: FC<Props> = ({ track, chooseTrack }) => {
