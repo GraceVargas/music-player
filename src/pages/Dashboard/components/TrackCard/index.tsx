@@ -1,12 +1,5 @@
 import { FC } from "react";
-import {
-  Card,
-  Box,
-  CardContent,
-  Typography,
-  CardMedia,
-  Grid,
-} from "@mui/material";
+import { Card, CardContent, Typography, CardMedia } from "@mui/material";
 import { SearchedTrack } from "../../../../types/index.ts";
 
 type Props = {
@@ -21,6 +14,7 @@ const TrackCard: FC<Props> = ({ track, chooseTrack }) => {
 
   return (
     <Card
+      className="card"
       sx={{
         position: "relative",
         textAlign: "center",
@@ -50,7 +44,7 @@ const TrackCard: FC<Props> = ({ track, chooseTrack }) => {
           gutterBottom
           variant="body1"
           component="div"
-          sx={{ lineHeight: 1.3 }}
+          sx={{ lineHeight: 1.2 }}
         >
           {track.title}
         </Typography>
@@ -59,7 +53,7 @@ const TrackCard: FC<Props> = ({ track, chooseTrack }) => {
           color="text.secondary"
           component="div"
           sx={{
-            whiteSpace: "nowrap",
+            lineHeight: 1.2,
           }}
         >
           {track.artistName}
@@ -73,7 +67,7 @@ const TrackCard: FC<Props> = ({ track, chooseTrack }) => {
             left: 0,
             right: 0,
             bottom: "5%",
-            margin: "1px",
+            margin: "2px",
             lineHeight: 1,
             color: "#ebebeb",
           }}

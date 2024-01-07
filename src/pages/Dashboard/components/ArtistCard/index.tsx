@@ -10,6 +10,7 @@ type Props = {
 const ArtistCard: FC<Props> = ({ artist }) => {
   return (
     <Card
+      className="card"
       sx={{
         position: "relative",
         textAlign: "center",
