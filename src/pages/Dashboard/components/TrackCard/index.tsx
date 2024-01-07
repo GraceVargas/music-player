@@ -1,12 +1,5 @@
 import { FC } from "react";
-import {
-  Card,
-  Box,
-  CardContent,
-  Typography,
-  CardMedia,
-  Grid,
-} from "@mui/material";
+import { Card, CardContent, Typography, CardMedia } from "@mui/material";
 import { SearchedTrack } from "../../../../types/index.ts";
 
 type Props = {
@@ -20,67 +13,69 @@ const TrackCard: FC<Props> = ({ track, chooseTrack }) => {
   };
 
   return (
-    <Grid item xs={4}>
-      <Card
-        sx={{ display: "flex", borderRadius: "10px", cursor: "pointer" }}
-        onClick={handlePlay}
-      >
-        <CardMedia
-          component="img"
+    <Card
+      className="card"
+      sx={{
+        position: "relative",
+        textAlign: "center",
+        height: "270px",
+        width: "180px",
+        borderRadius: "10px",
+        cursor: "pointer",
+        m: "5px",
+      }}
+      onClick={handlePlay}
+    >
+      <CardMedia
+        component="img"
+        sx={{
+          width: "100px",
+          height: "100px",
+          marginY: "8px",
+          marginX: "auto",
+          borderRadius: "10px",
+        }}
+        image={track.albumUrl}
+        alt={`${track.artistName} Album`}
+        loading="lazy"
+      />
+      <CardContent sx={{ p: "5px" }}>
+        <Typography
+          gutterBottom
+          variant="body1"
+          component="div"
+          sx={{ lineHeight: 1.2 }}
+        >
+          {track.title}
+        </Typography>
+        <Typography
+          variant="body1"
+          color="text.secondary"
+          component="div"
           sx={{
-            width: "100px",
-            height: "100px",
-            m: "5px",
-            borderRadius: "10px",
+            lineHeight: 1.2,
           }}
-          image={track.albumUrl}
-          alt={`${track.artistName} Album`}
-          loading="lazy"
-        />
-        <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
-          <CardContent sx={{ flex: "1 0 auto", position: "relative" }}>
-            <Typography
-              component="div"
-              variant="h6"
-              sx={{
-                position: "absolute",
-                top: "12%",
-                width: "90%",
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {track.title}
-            </Typography>
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              component="div"
-              sx={{
-                position: "absolute",
-                bottom: "35%",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {track.artistName}
-            </Typography>
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              component="div"
-              sx={{
-                position: "absolute",
-                bottom: "10%",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {track.album}
-            </Typography>
-          </CardContent>
-        </Box>
-      </Card>
-    </Grid>
+        >
+          {track.artistName}
+        </Typography>
+        <Typography
+          gutterBottom
+          variant="subtitle2"
+          component="div"
+          sx={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: "5%",
+            margin: "2px",
+            lineHeight: 1,
+            color: "#ebebeb",
+          }}
+        >
+          {track.album}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 

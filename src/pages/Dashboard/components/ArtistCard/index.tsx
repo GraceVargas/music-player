@@ -10,11 +10,12 @@ type Props = {
 const ArtistCard: FC<Props> = ({ artist }) => {
   return (
     <Card
+      className="card"
       sx={{
         position: "relative",
         textAlign: "center",
-        height: "215px",
-        width: "150px",
+        height: "270px",
+        width: "180px",
         borderRadius: "10px",
         cursor: "pointer",
         m: "5px",
