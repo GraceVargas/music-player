@@ -3,7 +3,6 @@ import { useArtists, useAuth } from "../../hooks";
 import { Player, TrackCard, AsideMenu, ArtistCard } from "./components/index";
 import {
   Container,
-  Grid,
   Box,
   Stack,
   IconButton,
@@ -107,6 +106,7 @@ const Dashboard: FC<Props> = ({ code }) => {
                 <>
                   <Typography variant="h5">Tracks</Typography>
                   <SimpleSlider
+                    length={tracks.length}
                     children={tracks.map((track) => (
                       <TrackCard
                         track={track}
@@ -123,6 +123,7 @@ const Dashboard: FC<Props> = ({ code }) => {
                 <>
                   <Typography variant="h5">Artists</Typography>
                   <SimpleSlider
+                    length={artists.length}
                     children={
                       artists &&
                       artists.map((artist) => (

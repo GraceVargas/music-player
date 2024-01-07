@@ -1,19 +1,24 @@
-import React, { FC, ReactNode } from "react";
-import { Box } from "@mui/material";
+import React, { FC, ReactNode, useState } from "react";
+import { Box, Button } from "@mui/material";
 import Slider from "react-slick";
 
 type Props = {
   children: ReactNode;
+  length: number;
 };
 
-const SimpleSlider: FC<Props> = ({ children }) => {
+const SimpleSlider: FC<Props> = ({ children, length }) => {
+  const [isLastSlide, setIsLastSlide] = useState(false);
   const settings = {
     infinite: false,
     slidesToShow: 6,
-    slidesToScroll: 4,
+    slidesToScroll: 6,
     arrows: true,
     dots: false,
     lazyLoad: true,
+    afterChange: (currentSlide: number) => {
+      setIsLastSlide(currentSlide + 6 >= length);
+    },
     responsive: [
       {
         breakpoint: 1024,
@@ -42,8 +47,13 @@ const SimpleSlider: FC<Props> = ({ children }) => {
   };
 
   return (
-    <Box>
+    <Box position={"relative"}>
       <Slider {...settings}>{children}</Slider>
+      {isLastSlide && (
+        <Button sx={{ position: "absolute", right: 0, color: "#6674f1" }}>
+          View All
+        </Button>
+      )}
     </Box>
   );
 };
