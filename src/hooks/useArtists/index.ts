@@ -34,6 +34,17 @@ const getArtists = async (search: string) => {
     }
 }
 
+// const getSelectedArtist = async (artistId: string) => {
+//   try {
+//     const res = await tracksApi.getArtist(artistId, accessToken);
+//     if (res) {
+//       return {
+
+//       }
+//     }
+//   }
+// }
+
   return { getArtists };
 }
 

@@ -9,13 +9,20 @@ type Props = {
   hideHeader?: boolean;
   hideNav?: boolean;
   hideFooter?: boolean;
+  page?: string;
 };
 
-const Layout: FC<Props> = ({ children, hideNav, hideHeader, hideFooter }) => {
+const Layout: FC<Props> = ({
+  children,
+  hideNav,
+  hideHeader,
+  hideFooter,
+  page,
+}) => {
   return (
     <>
       {!hideHeader && <Header>{!hideNav && <Navbar />}</Header>}
-      <Main>{children}</Main>
+      <Main className={`page page-${page} py-5`}>{children}</Main>
       {!hideFooter && <Footer />}
     </>
   );

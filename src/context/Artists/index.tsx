@@ -3,7 +3,7 @@ import { FC, ReactNode, createContext, useState } from "react";
 import { SearchedArtist } from "../../types/index.ts";
 
 type ArtistsContextType = {
-  artists?: SearchedArtist[];
+  artists: SearchedArtist[] | undefined;
   loadArtists: (artist: SearchedArtist[]) => void;
 };
 

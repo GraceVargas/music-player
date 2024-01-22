@@ -10,17 +10,19 @@ import {
   Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useTracks } from "../../hooks";
-import { TracksContext } from "../../context/Tracks";
+import { useTracks } from "../../hooks/index.ts";
+import { TracksContext } from "../../context/Tracks/index.tsx";
 import { useContext, useEffect, useState } from "react";
-import { SearchedTrack } from "../../types";
+import { SearchedTrack } from "../../types/index.ts";
 import { useSelector } from "react-redux";
-import { getCurrentUser, userSelector } from "../../redux/slices/userSlice";
+import { getCurrentUser, userSelector } from "../../redux/slices/userSlice.ts";
 import { useDispatch } from "react-redux";
-import { AppThunkDispatch } from "../../redux/rootReducer";
-import { tracksApi } from "../../api";
-import { ArtistsContext } from "../../context/Artists";
-import { SimpleSlider } from "../../components/Slider";
+import { AppThunkDispatch } from "../../redux/rootReducer.ts";
+import { tracksApi } from "../../api/index.tsx";
+import { ArtistsContext } from "../../context/Artists/index.tsx";
+import { SimpleSlider } from "../../components/Slider/index.tsx";
+import { Layout } from "../../components/index.ts";
+import { SearchedArtist } from "../../types/index.ts";
 
 type Props = {
   code: string;
@@ -55,7 +57,7 @@ const Dashboard: FC<Props> = ({ code }) => {
   };
 
   return (
-    <>
+    <Layout page="dashboard">
       <Container sx={{ display: "flex" }}>
         <AsideMenu />
         <Box
@@ -107,7 +109,7 @@ const Dashboard: FC<Props> = ({ code }) => {
                   <Typography variant="h5">Tracks</Typography>
                   <SimpleSlider
                     length={tracks.length}
-                    children={tracks.map((track) => (
+                    children={tracks.map((track: SearchedTrack) => (
                       <TrackCard
                         track={track}
                         key={track.uri}
@@ -126,7 +128,7 @@ const Dashboard: FC<Props> = ({ code }) => {
                     length={artists.length}
                     children={
                       artists &&
-                      artists.map((artist) => (
+                      artists.map((artist: SearchedArtist) => (
                         <ArtistCard artist={artist} key={artist.id} />
                       ))
                     }
@@ -140,7 +142,7 @@ const Dashboard: FC<Props> = ({ code }) => {
       <Box sx={{ position: "sticky", bottom: 0, left: 0, right: 0 }}>
         <Player trackUri={playTrack} key={playTrack?.uri} />
       </Box>
-    </>
+    </Layout>
   );
 };
 
