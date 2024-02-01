@@ -24,6 +24,7 @@ const TrackCard: FC<Props> = ({ track, chooseTrack }) => {
         cursor: "pointer",
         m: "5px",
       }}
+      
       onClick={handlePlay}
     >
       <CardMedia
