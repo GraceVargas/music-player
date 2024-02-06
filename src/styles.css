@@ -1,9 +1,12 @@
+body{ cursor: url('/assets/cursor.cur'), auto;}
+
 .card:hover {
     background-color: #232323;
+    cursor: pointer;
 }
 
 .artistImg_container {
-    height: 100%;
+    height: 90%;
     overflow: hidden;
     display: flex;
     margin: 3%;
@@ -14,6 +17,15 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    margin-top: 6%;
+    margin-top: 3%;
     margin-left: 2%;
+}
+
+
+.album_card:hover {
+    width: 180px;
+    height: 270px;
+    transform: scale(1.1);
+    transform-origin: center;
+    z-index: 1;
 }

@@ -158,21 +158,21 @@ export type SpotifyAlbumsResponse = {
   uri: string;
 };
 
+export type AlbumDetail = {
+  id: string;
+  name: string;
+  tracks: number;
+  image: string;
+  releaseDate: string;
+};
+
 export type ArtistDetail = {
   id: string;
   name: string;
   image: string;
   followers: number;
   genres: string[];
-  albums:
-    | {
-        id: string;
-        name: string;
-        tracks: number;
-        image: string;
-        releaseDate: string;
-      }[]
-    | undefined;
+  albums: AlbumDetail[] | undefined;
 };
 
 export type User = {

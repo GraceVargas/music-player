@@ -5,6 +5,7 @@ import { tracksApi } from "../../api/index.tsx";
 import { useContext } from "react";
 import { ArtistsContext } from "../../context/Artists/index.tsx";
 import { ArtistDetail } from "../../types/index.ts";
+import { formatDate } from "../../utils/index.ts";
 
 const useArtists = () => {
   const { accessToken } = useSelector(authSelector);
@@ -44,16 +45,12 @@ const useArtists = () => {
       const response = await tracksApi.getAlbumsByArtist(artistId, accessToken);
       if (response) {
         const temp = response.map((album) => {
-          const returnSmallestAlbumImg = () => {
-            const length = album.images.length;
-            return album.images[length - 1];
-          };
           return {
             id: album.uri.replace("spotify:album:", ""),
             name: album.name,
             tracks: album.total_tracks,
-            image: returnSmallestAlbumImg().url,
-            releaseDate: album.release_date,
+            image: album.images[1].url,
+            releaseDate: formatDate(album.release_date),
           };
         });
         return temp;
