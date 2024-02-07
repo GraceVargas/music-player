@@ -1,1 +1,1 @@
-export { AlbumCard } from "./AlbumCard/index.tsx";
+export { AlbumsGallery } from "./AlbumsGallery/index.tsx";

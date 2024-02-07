@@ -5,16 +5,9 @@ import { useSelector } from "react-redux";
 import { authSelector } from "../../redux/slices/authSlice.ts";
 import { useParams } from "react-router-dom";
 import { ArtistsContext } from "../../context/Artists/index.tsx";
-import {
-  Container,
-  Grid,
-  List,
-  ListItem,
-  Typography,
-  Card,
-} from "@mui/material";
+import { Container, List, ListItem, Typography, Box } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { AlbumCard } from "./components/index.ts";
+import { AlbumsGallery } from "./components/index.ts";
 
 const ArtistPage = () => {
   const { id } = useParams();
@@ -30,8 +23,8 @@ const ArtistPage = () => {
     <>
       <Layout hideFooter hideHeader hideNav page="artistPage">
         {artist && (
-          <>
-            <Container sx={{ display: "flex", height: "50vh" }}>
+          <Container>
+            <Box sx={{ display: "flex", height: "50vh" }}>
               <div className="artistImg_container">
                 <img src={artist.image} alt={`${artist.name}_img`} />
               </div>
@@ -50,22 +43,11 @@ const ArtistPage = () => {
                   ))}
                 </List>
               </div>
-            </Container>
-            <Container>
-              {artist.albums && (
-                <Grid
-                  container
-                  spacing={4}
-                  margin={0}
-                  sx={{ alignContent: "center", justifyContent: "center" }}
-                >
-                  {artist.albums.map((album) => (
-                    <AlbumCard album={album} key={album.id} />
-                  ))}
-                </Grid>
-              )}
-            </Container>
-          </>
+            </Box>
+            <Box sx={{ position: "relative", height: "50vh" }}>
+              {artist.albums && <AlbumsGallery albums={artist.albums} />}
+            </Box>
+          </Container>
         )}
       </Layout>
     </>
