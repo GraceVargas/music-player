@@ -5,7 +5,7 @@ import { LoginForm } from "./components/LoginForm";
 
 const Login = () => {
   return (
-    <Layout hideHeader hideFooter>
+    <Layout hideHeader hideFooter page="login">
       <Box sx={{ display: "flex", flexWrap: "wrap", marginTop: "10%" }}>
         <LoginForm />
       </Box>

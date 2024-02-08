@@ -8,9 +8,7 @@ type Props = {
 const Main: FC<Props> = ({ children }) => {
   return (
     <>
-      <Container maxWidth="xl" sx={{ height: "80vh" }}>
-        {children}
-      </Container>
+      <Container>{children}</Container>
     </>
   );
 };

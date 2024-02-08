@@ -1,16 +1,21 @@
 import { FC } from "react";
 import { SearchedArtist } from "../../../../types/index.ts";
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   artist: SearchedArtist;
-  //   chooseArtist: (track: Partial<SpotifyResponse>) => void;
 };
 
 const ArtistCard: FC<Props> = ({ artist }) => {
+  const navigate = useNavigate();
+  const handleClick = (artistId: string) => {
+    navigate(`/ArtistPage/${artistId}`, { replace: true });
+  };
   return (
     <Card
       className="card"
+      key={artist.id}
       sx={{
         position: "relative",
         textAlign: "center",
@@ -20,6 +25,7 @@ const ArtistCard: FC<Props> = ({ artist }) => {
         cursor: "pointer",
         m: "5px",
       }}
+      onClick={() => handleClick(artist.id)}
     >
       <CardMedia
         component="img"

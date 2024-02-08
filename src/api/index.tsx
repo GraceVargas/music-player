@@ -1,7 +1,11 @@
 import SpotifyWebApi from "spotify-web-api-node";
 import Global from "../../server/Global/Global.js";
 import { mapToArray } from "./index.ts";
-import { SpotifyResponse, SpotifyResponseArtist } from "../types/index.ts";
+import {
+  SpotifyAlbumsResponse,
+  SpotifyArtistResponse,
+  SpotifyResponse,
+} from "../types/index.ts";
 
 const createSpotifyApi = (accessToken: string) => {
   const spotifyApi = new SpotifyWebApi({
@@ -29,7 +33,7 @@ const searchTracks = async (
 const searchArtists = async (
   search: string,
   accessToken: string
-): Promise<SpotifyResponseArtist[]> => {
+): Promise<SpotifyArtistResponse[]> => {
   const spotifyApi = createSpotifyApi(accessToken);
   try {
     const response = await spotifyApi.searchArtists(search);
@@ -58,13 +62,12 @@ const searchPlaylists = async (
 const getArtist = async (
   artistId: string | undefined,
   accessToken: string
-): Promise<SpotifyResponse[] | undefined> => {
+): Promise<SpotifyArtistResponse | undefined> => {
   const spotifyApi = createSpotifyApi(accessToken);
   try {
     if (artistId) {
       const response = await spotifyApi.getArtist(artistId);
-      console.log("Artist information", response.body);
-      return mapToArray(response.body);
+      return response.body;
     }
   } catch (error) {
     console.error(error);
@@ -109,13 +112,12 @@ const getTracksInAlbum = async (
 const getAlbumsByArtist = async (
   artistId: string | undefined,
   accessToken: string
-): Promise<SpotifyResponse[] | undefined> => {
+): Promise<SpotifyAlbumsResponse[] | undefined> => {
   const spotifyApi = createSpotifyApi(accessToken);
   try {
     if (artistId) {
       const response = await spotifyApi.getArtistAlbums(artistId);
-      console.log("Artist albums", response.body);
-      return mapToArray(response.body);
+      return mapToArray(response.body.items);
     }
   } catch (error) {
     console.error(error);
@@ -134,10 +136,10 @@ const getFeaturedPlaylists = async (accessToken: string) => {
       timestamp: "2014-10-23T09:00:00",
     })
     .then(
-      function (response) {
+      (response) => {
         return mapToArray(response.body);
       },
-      function (err) {
+      (err) => {
         console.log("Something went wrong!", err);
       }
     );

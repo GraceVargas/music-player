@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { Login, Dashboard } from "./pages";
+import { Login, Dashboard, ArtistPage } from "./pages";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { TracksProvider } from "./context/Tracks";
 import { ArtistsProvider } from "./context/Artists";
@@ -17,7 +17,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route path="" element={<Outlet />} />
 
             {code ? (
-              <Route index element={<Dashboard code={code} />} />
+              <>
+                <Route index element={<Dashboard code={code} />} />
+                <Route path="ArtistPage/:id" element={<ArtistPage />} />
+              </>
             ) : (
               <Route path="login" element={<Login />} />
             )}
