@@ -29,12 +29,14 @@ const ArtistPage = () => {
                 <img src={artist.image} alt={`${artist.name}_img`} />
               </div>
               <div className="artistDetail_container">
-                <Typography variant="h2">{artist.name}</Typography>
+                <Typography variant="h2">
+                  {artist.name.toUpperCase()}
+                </Typography>
                 <Typography variant="h5">
                   {artist.followers.toLocaleString("es-ES")} Followers
                 </Typography>
-                <Typography variant="body1">Genres:</Typography>
                 <List>
+                  <Typography variant="body1">Genres:</Typography>
                   {artist.genres.map((genre) => (
                     <ListItem key={genre} dense disablePadding>
                       <KeyboardArrowRightIcon />

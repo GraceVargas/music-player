@@ -1,4 +1,8 @@
-body{ cursor: url('/assets/cursor.cur'), auto;}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap');
+
+body { cursor: url('/assets/cursor.cur'), auto;
+font-family: 'Poppins';
+}
 
 .card:hover {
     background-color: #232323;
@@ -78,8 +82,9 @@ body{ cursor: url('/assets/cursor.cur'), auto;}
   }
   
   .album_title {
-    font-size: 1vw;
-    color: #f7f436;
+    font-size: 0.9vw;
+    color: #6ee0f5;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
     text-align: right;
     position: absolute;
     transform: translate3d(0, 0px, 0);
