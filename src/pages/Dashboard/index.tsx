@@ -58,89 +58,93 @@ const Dashboard: FC<Props> = ({ code }) => {
 
   return (
     <Layout page="dashboard">
-      <Container sx={{ display: "flex" }}>
-        <AsideMenu />
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            width: "auto",
-            minHeight: "100vh",
-            marginTop: { xs: "80px", md: "10px" },
-          }}
-        >
-          <Box>usuario: {userData.email}</Box>
-          <Stack
-            component="form"
+      <Box sx={{ minHeight: "100vh", position: "relative" }}>
+        <Box sx={{ display: "flex", height: "calc(100vh - 80px)"}}>
+          <AsideMenu />
+          <Box
+            component="main"
             sx={{
-              p: "2px 4px",
-              m: "25px auto",
-              display: "flex",
-              flexDirection: "row",
-              width: "100%",
-              backgroundColor: "#FFF",
-              borderRadius: "15px",
-              padding: "7px",
+              position: "relative",
+              flexGrow: 1,
+              width: "auto",
+              maxWidth: "80vw",
+              minHeight: "100vh",
+              // marginTop: { xs: "80px", md: "10px" },
             }}
           >
-            <InputBase
+            {/* <Box>usuario: {userData.email}</Box> */}
+            <Stack
+              component="form"
               sx={{
-                ml: 1,
-                flex: 1,
-                color: "#000",
+                p: "2px 4px",
+                m: "25px auto",
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                backgroundColor: "#FFF",
+                borderRadius: "15px",
+                padding: "7px",
               }}
-              placeholder="Search song or artist"
-              inputProps={{ "aria-label": "search song or artist" }}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <IconButton
-              type="button"
-              sx={{ p: "2px", color: "#000" }}
-              aria-label="search"
             >
-              <SearchIcon />
-            </IconButton>
-          </Stack>
-          <Container>
-            <Box sx={{ marginTop: "10px" }}>
-              {tracks && (
-                <>
-                  <Typography variant="h5">Tracks</Typography>
-                  <SimpleSlider
-                    length={tracks.length}
-                    children={tracks.map((track: SearchedTrack) => (
-                      <TrackCard
-                        track={track}
-                        key={track.uri}
-                        chooseTrack={() => chooseTrack(track)}
-                      />
-                    ))}
-                  />
-                </>
-              )}
+              <InputBase
+                sx={{
+                  ml: 1,
+                  flex: 1,
+                  color: "#000",
+                }}
+                placeholder="Search song or artist"
+                inputProps={{ "aria-label": "search song or artist" }}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <IconButton
+                type="button"
+                sx={{ p: "2px", color: "#000" }}
+                aria-label="search"
+              >
+                <SearchIcon />
+              </IconButton>
+            </Stack>
+            <Box>
+              <Box sx={{ marginTop: "10px" }}>
+                {tracks && (
+                  <>
+                    <Typography variant="h5">Tracks</Typography>
+                    <SimpleSlider
+                      length={tracks.length}
+                      children={tracks.map((track: SearchedTrack) => (
+                        <TrackCard
+                          track={track}
+                          key={track.uri}
+                          chooseTrack={() => chooseTrack(track)}
+                        />
+                      ))}
+                    />
+                  </>
+                )}
+              </Box>
+              <Box sx={{ marginTop: "10px" }}>
+                {artists && (
+                  <>
+                    <Typography variant="h5">Artists</Typography>
+                    <SimpleSlider
+                      length={artists.length}
+                      children={
+                        artists &&
+                        artists.map((artist: SearchedArtist) => (
+                          <ArtistCard artist={artist} key={artist.id} />
+                        ))
+                      }
+                    />
+                  </>
+                )}
+              </Box>
             </Box>
-            <Box sx={{ marginTop: "10px" }}>
-              {artists && (
-                <>
-                  <Typography variant="h5">Artists</Typography>
-                  <SimpleSlider
-                    length={artists.length}
-                    children={
-                      artists &&
-                      artists.map((artist: SearchedArtist) => (
-                        <ArtistCard artist={artist} key={artist.id} />
-                      ))
-                    }
-                  />
-                </>
-              )}
+            <Box sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
+              <Player trackUri={playTrack} key={playTrack?.uri} />
             </Box>
-          </Container>
+          </Box>
         </Box>
-      </Container>
-      <Box sx={{ position: "sticky", bottom: 0, left: 0, right: 0 }}>
-        <Player trackUri={playTrack} key={playTrack?.uri} />
       </Box>
     </Layout>
   );
